@@ -6,7 +6,9 @@ int windowWidth = 400;
 int windowHeight = 400;
 
 float r1 = 1.0; // attract to eachother
-float r2 = 0.8 //keep members seperate 
+float r2 = 0.8; //keep members seperate 
+ArrayList <Nest> nests;
+
 //Setup
 void setup() {
   size(windowWidth, windowHeight);

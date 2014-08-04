@@ -1,6 +1,6 @@
 class Nest {
   
- PImage nestImg;
+ 
 
 
  
