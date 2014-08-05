@@ -1,39 +1,60 @@
 //Libaries
 
 //Variables
-Cell[][] grid;
 float r1 = 1.0; // attract to eachother
 float r2 = 0.8; //keep members seperate 
 ArrayList <Nest> nests;
+ArrayList <Bird> birds;
 int totalNestCount = 5;
+int maxBPN = 5;
 PImage birdImg, nestImg; 
 //Window size
-int windowWidth = 400;
-int windowHeight = 400;
-
-int cols = 3;
-int rows = 3;
-
-
+int windowWidth = 500;
+int windowHeight = 500;
+int x;
+int y;
 
 //Setup
 void setup() {
   size(windowWidth, windowHeight);
   nests = new ArrayList <Nest> ();
+  birds = new ArrayList <Bird> ();
   frameRate(60);
   birdImg = loadImage("bird.png");
   nestImg = loadImage("nest.png");
 
-  grid = new Cell[cols][rows];
-  for (int i = 0; i < cols; i++) {
-    for (int j = 0; j < rows; j++) {
-      // Initialize each object
-      grid[i][j] = new Cell(i*20, j*20, 20, 20);
-    }
-  }
+
   //Nest count
-  for (int i = 1; i <= totalNestCount; i++) {
-    nests.add (new Nest(random(0, width), random(0, height)));
+  for (int i = 0; i <= totalNestCount-1; i++) {
+    if (i == 0) {
+      x = 100;
+      y = 100;
+    }
+    if (i == 1) {
+      x=350;
+      y=150;
+    }
+    if (i == 2) {
+      x=150;
+      y=250;
+    }
+    if (i == 3) {
+      x=400;
+      y=350;
+    }
+    if (i == 4) {
+      x=250;
+      y=400;
+    }
+    nests.add (new Nest(i, x, y));
+    int birdCount = int(random(0, 3.9));
+    Nest myNest = (Nest) nests.get(i);
+    myNest.updateBirdCount(birdCount);
+    
+    for (int k = 1; k <= birdCount; k++) {
+      birds.add (new Bird(i, x, y));
+    }
+    println("birdCount" + birds.size());
   }
 }
 
@@ -45,17 +66,16 @@ void draw() {
   background(180, 248, 255);
   for (int i = 0; i < nests.size (); i++) {
     Nest myNest = (Nest) nests.get(i);
-    println("yes"); 
+
     myNest.update();
     myNest.render();
   }
-  for (int i = 0; i < cols; i++) {
-    for (int j = 0; j < rows; j++) {
-      // Oscillate and display each object
-      grid[i][j].render();
-    }
-  }
 
-  //r1 = Pull to center of flock
+  for (int i = 0; i < birds.size (); i++) {
+    Bird myBird = (Bird) birds.get(i);
+
+    myBird.update();
+    myBird.render();
+  }
 }
 
