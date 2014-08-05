@@ -81,7 +81,7 @@ class Bird {
   //     }
 
   void outOfBounds() {
-    if (location.x > width || location.x < 0 || location.y > height || location.y < 0) {
+    if (location.x > 2*width || location.x < -width || location.y > 2*height || location.y < -width) {
       PVector dir = PVector.sub(targetNestLocation, location);  // Find vector pointing towards mouse
       dir.normalize();     // Normalize
       dir.mult(random(.4, .6));       // Scale 
