@@ -13,6 +13,7 @@ int windowWidth = 500;
 int windowHeight = 500;
 int x;
 int y;
+float t = millis()/1000.0f;
 
 //Setup
 void setup() {

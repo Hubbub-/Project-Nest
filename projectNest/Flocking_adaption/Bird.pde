@@ -6,7 +6,10 @@ class Bird {
   PVector acceleration;
   float topspeed;
   boolean inFlight;
-
+//  float t = millis()/1000.0f;
+  int cx = 250;
+int cy = 250;
+int r = 100;
 
   Bird(int nestIn, float xIn, float yIn) {
     currentNest = nestIn;
@@ -20,6 +23,8 @@ class Bird {
   void render() {
     imageMode(CENTER);
     image(birdImg, location.x, location.y);
+    reachedTargetNest();
+ 
   }
 
 
@@ -27,6 +32,7 @@ class Bird {
     if (inFlight) {
       flying();
       reachedTargetNest();
+//     birdCircle();
     }
   }
 
@@ -59,11 +65,20 @@ class Bird {
   void reachedTargetNest() {
     if (location.dist(targetNestLocation) <= 30) {
       inFlight = false;
+  
     }
   }
 
   int nestNumber() {
     return currentNest;
   }
+  
+//  void birdCircle() {
+//    float t = millis()/1000.0f;
+//    if (inFlight = false) {
+//         x = (int)(cx+r*cos(t));
+//         y = (int)(cy+r*sin(t));
+//      }
+//     }
 }
 
