@@ -6,10 +6,10 @@ class Bird {
   PVector acceleration;
   float topspeed;
   boolean inFlight;
-//  float t = millis()/1000.0f;
+  //  float t = millis()/1000.0f;
   int cx = 250;
-int cy = 250;
-int r = 100;
+  int cy = 250;
+  int r = 100;
 
   Bird(int nestIn, float xIn, float yIn) {
     currentNest = nestIn;
@@ -24,7 +24,6 @@ int r = 100;
     imageMode(CENTER);
     image(birdImg, location.x, location.y);
     reachedTargetNest();
- 
   }
 
 
@@ -32,7 +31,8 @@ int r = 100;
     if (inFlight) {
       flying();
       reachedTargetNest();
-//     birdCircle();
+      outOfBounds();
+      //     birdCircle();
     }
   }
 
@@ -44,7 +44,7 @@ int r = 100;
         targetNest = int(random(0, 4.9));
       }
       Nest myNest = (Nest) nests.get(targetNest);
-//      myNest.updateBirdCount(1);
+      myNest.updateBirdCount(1);
       targetNestLocation.set(myNest.nestX()+ random(-25, 25), myNest.nestY()+ random(-25, 25));
       PVector dir = PVector.sub(targetNestLocation, location);  // Find vector pointing towards mouse
       dir.normalize();     // Normalize
@@ -63,22 +63,30 @@ int r = 100;
   }
 
   void reachedTargetNest() {
-    if (location.dist(targetNestLocation) <= 30) {
+    if (location.dist(targetNestLocation) <= 40) {
       inFlight = false;
-  
     }
   }
 
   int nestNumber() {
     return currentNest;
   }
-  
-//  void birdCircle() {
-//    float t = millis()/1000.0f;
-//    if (inFlight = false) {
-//         x = (int)(cx+r*cos(t));
-//         y = (int)(cy+r*sin(t));
-//      }
-//     }
+
+  //  void birdCircle() {
+  //    float t = millis()/1000.0f;
+  //    if (inFlight = false) {
+  //         x = (int)(cx+r*cos(t));
+  //         y = (int)(cy+r*sin(t));
+  //      }
+  //     }
+
+  void outOfBounds() {
+    if (location.x > width || location.x < 0 || location.y > height || location.y < 0) {
+      PVector dir = PVector.sub(targetNestLocation, location);  // Find vector pointing towards mouse
+      dir.normalize();     // Normalize
+      dir.mult(random(.4, .6));       // Scale 
+      acceleration = dir;  // Set to acceleration
+    }
+  }
 }
 

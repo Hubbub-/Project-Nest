@@ -15,7 +15,7 @@ class Nest {
     fill(59, 144, 216);
     noStroke();
     ellipseMode(CENTER);
-    ellipse(x, y, nestWidth, nestWidth);
+    ellipse(x, y, nestWidth*1.5, nestWidth*1.5);
     imageMode(CENTER);
     image(nestImg, x, y, 40, 30);
   }
@@ -26,7 +26,7 @@ class Nest {
   }
 
   void updateBirdCount(int i) {
-    birdCount = +i;
+    birdCount = birdCount+i;
   }
 
   void byeByeBirds() {
