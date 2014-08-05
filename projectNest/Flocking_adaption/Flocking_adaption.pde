@@ -54,7 +54,7 @@ void setup() {
     for (int k = 1; k <= birdCount; k++) {
       birds.add (new Bird(i, x, y));
     }
-    println("birdCount" + birds.size());
+//    println("birdCount" + birds.size());
   }
 }
 

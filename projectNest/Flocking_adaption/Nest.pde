@@ -1,7 +1,7 @@
 class Nest {
   //Variables
   float x, y;
-  float nestWidth = 60;
+  float nestWidth = 100;
   float nestRad = nestWidth/2;
   int nestNum, birdCount;
   //Constructor
@@ -19,33 +19,39 @@ class Nest {
     imageMode(CENTER);
     image(nestImg, x, y, 40, 30);
   }
-  
+
   void update() {
     byeByeBirds();
+    println("#" + nestNum +  " Birds: " +birdCount );
   }
-  
-  void updateBirdCount(int i){
+
+  void updateBirdCount(int i) {
     birdCount = +i;
-    println(birdCount);
   }
 
-void byeByeBirds() {
-  if (mouseX >= x - nestRad && mouseX <= x + nestRad && mouseY >= y - nestRad && mouseY <= y+ nestRad)  {
+  void byeByeBirds() {
+    if (mouseX >= x - nestRad && mouseX <= x + nestRad && mouseY >= y - nestRad && mouseY <= y+ nestRad) {
+      for (int i = 0; i < birds.size (); i++) {
+        Bird myBird = (Bird) birds.get(i);
+
+        myBird.changeNest(nestNum);
+      }
+      birdCount=0;
+    }
+  }
+
+  float nestX() {
+    return x;
+  }
+
+  float nestY() {
+    return y;
+  }
+
+  void tooManyBirds() {
     for (int i = 0; i < birds.size (); i++) {
-    Bird myBird = (Bird) birds.get(i);
-
-    myBird.changeNest(nestNum);
-  }
+      Bird myBird = (Bird) birds.get(i);
+    }
   }
 }
 
-float nestX() {
-  return x;
-}
-
-float nestY() {
-  return y;
-}
-
-
-}
