@@ -20,16 +20,14 @@ class Nest {
     image(nestImg, x, y, 40, 30);
   }
   
+  void update() {
+    byeByeBirds();
+  }
+  
   void updateBirdCount(int i){
     birdCount = +i;
     println(birdCount);
   }
-
-
-  void update() {
-    byeByeBirds();
-  }
-
 
 void byeByeBirds() {
   if (mouseX >= x - nestRad && mouseX <= x + nestRad && mouseY >= y - nestRad && mouseY <= y+ nestRad)  {
@@ -39,6 +37,14 @@ void byeByeBirds() {
     myBird.changeNest(nestNum);
   }
   }
+}
+
+float nestX() {
+  return x;
+}
+
+float nestY() {
+  return y;
 }
 
 

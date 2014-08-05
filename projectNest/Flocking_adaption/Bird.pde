@@ -1,6 +1,6 @@
 class Bird {
   int currentNest, targetNest; 
-  float x, y;
+  float x, y, targetX, targetY;
   boolean inFlight;
 
 
@@ -18,24 +18,34 @@ class Bird {
 
 
   void update() {
-    flying();
+    if (inFlight) {
+      flying();
+    }
   }
 
 
-void changeNest(int nestNum) {
-  if (currentNest == nestNum) {
-    targetNest = int(random(1, 5.9));
-    if (targetNest == currentNest) {
-      targetNest = int(random(1, 5.9));
+  void changeNest(int nestNum) {
+    if (currentNest == nestNum) {
+      targetNest = int(random(0, 4.9));
+      if (targetNest == currentNest) {
+        targetNest = int(random(0, 4.9));
+      }
+      Nest myNest = (Nest) nests.get(targetNest);
+      targetX = myNest.nestX();
+      targetY = myNest.nestY();
     }
     inFlight = true;
     println("moving!");
   }
-}
-void flying() {
   
+  void flying() {
+  x= targetX+ random(-30, 30);
+  y= targetY+ random(-30, 30);
+  currentNest = targetNest;
+  inFlight = false;
 }
-
+  
+  
 }
 
 

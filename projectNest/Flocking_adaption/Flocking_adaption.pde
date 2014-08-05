@@ -47,7 +47,7 @@ void setup() {
       y=400;
     }
     nests.add (new Nest(i, x, y));
-    int birdCount = int(random(0, 3.9));
+    int birdCount = int(random(0, maxBPN));
     Nest myNest = (Nest) nests.get(i);
     myNest.updateBirdCount(birdCount);
     
