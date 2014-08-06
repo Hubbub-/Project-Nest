@@ -12,7 +12,7 @@ class Nest {
   }
 
   void render() {
-    fill(59, 144, 216);
+    fill(59, 144, 216, 70);
     noStroke();
     ellipseMode(CENTER);
     ellipse(x, y, nestWidth*1.5, nestWidth*1.5);

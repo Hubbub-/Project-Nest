@@ -6,7 +6,6 @@ class Bird {
   PVector acceleration;
   float topspeed;
   boolean inFlight;
-  //  float t = millis()/1000.0f;
   int cx = 250;
   int cy = 250;
   int r = 100;

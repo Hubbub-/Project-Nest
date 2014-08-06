@@ -7,7 +7,7 @@ ArrayList <Nest> nests;
 ArrayList <Bird> birds;
 int totalNestCount = 5;
 int maxBPN = 5;
-PImage birdImg, nestImg; 
+PImage birdImg, nestImg, aoteaSquare; 
 //Window size
 int windowWidth = 500;
 int windowHeight = 500;
@@ -23,13 +23,14 @@ void setup() {
   frameRate(60);
   birdImg = loadImage("bird.png");
   nestImg = loadImage("nest.png");
+  aoteaSquare = loadImage("aoteaSquare.png");
 
 
   //Nest count
   for (int i = 0; i <= totalNestCount-1; i++) {
     if (i == 0) {
-      x = 100;
-      y = 100;
+      x = 117;
+      y = 90;
     }
     if (i == 1) {
       x=350;
@@ -65,6 +66,8 @@ void setup() {
 //Update
 void draw() {
   background(180, 248, 255);
+  imageMode(CORNER);
+  image(aoteaSquare, 0, 0);
   for (int i = 0; i < nests.size (); i++) {
     Nest myNest = (Nest) nests.get(i);
 
