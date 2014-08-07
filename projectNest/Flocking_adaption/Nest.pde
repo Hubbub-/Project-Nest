@@ -4,6 +4,7 @@ class Nest {
   float nestWidth = 100;
   float nestRad = nestWidth/2;
   int nestNum, birdCount;
+ 
   //Constructor
   Nest(int nestNumIn, float xIn, float yIn) {
     nestNum = nestNumIn;

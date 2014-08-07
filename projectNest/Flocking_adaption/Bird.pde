@@ -34,7 +34,13 @@ class Bird {
       //     birdCircle();
     }
   }
+/*
+ when the bird is in the vicinity of the tree, it induces a postive value. THe closer the bird gets
+ to the tree the positive value increases. The negative value is the mouse. (stimulis function) cause hurt for the bird
+ which causes the bird to start randomly moving around.
+ Matrix of neurons. (Strength & weight). 
 
+*/
 
   void changeNest(int nestNum) {
     if (currentNest == nestNum) {
@@ -64,6 +70,7 @@ class Bird {
   void reachedTargetNest() {
     if (location.dist(targetNestLocation) <= 40) {
       inFlight = false;
+        
     }
   }
 

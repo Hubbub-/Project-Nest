@@ -29,23 +29,23 @@ void setup() {
   //Nest count
   for (int i = 0; i <= totalNestCount-1; i++) {
     if (i == 0) {
-      x = 117;
-      y = 90;
+      x = 182;
+      y = 72;
     }
     if (i == 1) {
-      x=350;
-      y=150;
+      x=267;
+      y=200;
     }
     if (i == 2) {
-      x=150;
-      y=250;
+      x=220;
+      y=367;
     }
     if (i == 3) {
-      x=400;
-      y=350;
+      x=355;
+      y=230;
     }
     if (i == 4) {
-      x=250;
+      x=289;
       y=400;
     }
     nests.add (new Nest(i, x, y));
