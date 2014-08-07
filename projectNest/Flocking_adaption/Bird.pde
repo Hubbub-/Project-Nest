@@ -44,13 +44,13 @@ class Bird {
 
   void changeNest(int nestNum) {
     if (currentNest == nestNum) {
-      targetNest = int(random(0, 4.9));
+      targetNest = int(random(0, totalNestCount));
       if (targetNest == currentNest) {
-        targetNest = int(random(0, 4.9));
+        targetNest = int(random(0, totalNestCount));
       }
       Nest myNest = (Nest) nests.get(targetNest);
       myNest.updateBirdCount(1);
-      targetNestLocation.set(myNest.nestX()+ random(-25, 25), myNest.nestY()+ random(-25, 25));
+      targetNestLocation.set(myNest.x + random(-25, 25), myNest.y + random(-25, 25));
       PVector dir = PVector.sub(targetNestLocation, location);  // Find vector pointing towards mouse
       dir.normalize();     // Normalize
       dir.mult(random(.4, .6));       // Scale 
