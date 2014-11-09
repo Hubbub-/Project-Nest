@@ -13,11 +13,19 @@ from Adafruit_ADS1x15 import ADS1x15
 from pygame.mixer import Sound
 
 
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+#GPIO.cleanup()
+GPIO.setwarnings(False)
+GPIO.setup(17, GPIO.OUT)
+#GPIO.output(17,GPIO.HIGH)
+
 pygame.init()
 pygame.mixer.init()
 pygame.mixer.set_num_channels(8)
+hey = pygame.mixer.Channel(7)
 boot_up = pygame.mixer.Sound("boot_up.wav")
-boot_up.play()
+hey.play(boot_up)
       
 
 #[-------------DistanceSensorStuff-------------------------------]        
@@ -40,9 +48,10 @@ gain = 4096
 
 class Helper:
         def __init__(self):
-                pass
+                self.lastDist = 0
+                self.curDist = 0
         
-        def logData(self):
+        def logDistance(self):
 
                 #Below: Makes the IRD sensor's voltage linear.
                 #Then Maps the voltage range to a distance range.
@@ -67,6 +76,18 @@ class Helper:
                 #print 'distance: ' , distance
 
                 return distance
+
+        def logSpeed(self):
+                self.lastDist = self.curDist
+                self.curDist = self.logDistance()
+
+                speed = self.curDist - self.lastDist
+
+                #print speed
+                return speed
+                
+                
+                
 
         
         #[-------------GUISetup----------------------------------------]
@@ -97,7 +118,7 @@ class Helper:
                 myfont_medium = pygame.font.SysFont("calibri", 50)
                 myfont_small = pygame.font.SysFont("calibri", 30)
 
-                distance = "Distance: " + str(myHelper.logData()) #myHelper.logData()
+                distance = "Distance: " + str(myHelper.logDistance()) #myHelper.logData()
 
                 for i in range(0, birdNum):
 
@@ -146,7 +167,7 @@ class Birds:
         
         
         def __init__(self, species, channel, personality):
-                self.distance = myHelper.logData()
+                self.distance = myHelper.logDistance()
                 self.stopwatch = Timer.Timer()
                 #self.stopwatch.start()
                 self.moodwatch = Timer.Timer()
@@ -173,9 +194,11 @@ class Birds:
                         self.voice.play(threat)
                         #print 'threat'
                 elif self.state == 'chilled':
-                        chilled  = pygame.mixer.Sound(self.species + '_chilled_1.wav')
+                        i = str(randrange(1,3))
+                        chilled  = pygame.mixer.Sound(self.species + '_chilled_' + i + '.wav')
                         self.voice.play(chilled)
                         #print 'chilled'
+                        #print i
                 elif self.state == 'caution':
                         caution  = pygame.mixer.Sound(self.species + '_caution.wav')
                         self.voice.play(caution)
@@ -213,22 +236,30 @@ class Birds:
                                 self.mood = 10
                 
 
-
+        def dropMood(self):
+                if myHelper.logSpeed() < -200:
+                        self.mood -= int(Interpolate.map(self.personality, -10, 10, 18, 10))
+                        if self.mood < -10:
+                                self.mood = -10
+                        
         def changeState(self):
 
                 if self.mood > 5:
                         self.state = 'musical'
+                        self.stateNum = 1
                 elif self.mood > -2 and self.mood < 5:
                         self.state = 'chilled'
+                        self.stateNum = 0
                 elif self.mood < -2 and self.mood > -7:
                         self.state = 'caution'
+                        self.stateNum = -1
                 elif self.mood < -7:
                         self.state = 'threat'
+                        self.stateNum = -2
                 
                 else:
                         self.state = 'sleep'
-
-
+        
 
         def hasStateChanged(self):
                 if self.state != self.lastState:
@@ -268,9 +299,11 @@ class Birds:
 
 
         def update(self):
-                self.distance = myHelper.logData()
+                self.distance = myHelper.logDistance()
+                self.speed = myHelper.logSpeed
                 self.startMoodWatch()
                 self.stopMoodWatch()
+                self.dropMood()
                 self.changeMood()
                 self.changeState()
                 self.hasStateChanged()
@@ -285,14 +318,16 @@ class Birds:
 myHelper = Helper()
 
 #A dictionary of the different bird species that can be added to the bird list
-birdSpecies = ['tui', 'kokako', 'robin', 'stiazchbird']
+birdSpecies = ['tui', 'kokako', 'robin', 'stichbird']
 
 birdList = []
 
 #Number of birds added per nest
-birdNum = 4
+birdNum = int(randrange(3,6))
 
 myBirds = []
+
+GUI = False
 
 
 def randomInsert():
@@ -310,22 +345,26 @@ print randomInsert()
 #for i in range(0,birdNum):
                 #myBirds[i].playSounds()
 
+#Turn LED on
+GPIO.output(17,GPIO.HIGH)
 
 
-#[-------------DrawLoop----------------------------------------]
-        
+#[-------------DrawLoop----------------------------------------]       
 while True:
 
-        #Create a pygame window
-        for event in pygame.event.get():
-                if event.type == QUIT:
-                        pygame.quit()
-                        sys.exit()
+        if GUI == True:
 
-        #Creates a GUI window        
-        myHelper.texts()
+                #Creates a GUI window        
+                myHelper.texts()
 
-        pygame.display.update()
+                pygame.display.update()
+
+                #Create a pygame window
+                for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                                GPIO.output(17,GPIO.LOW)
+                                pygame.quit()
+                                sys.exit()
         
         #myHelper.logData()
 
